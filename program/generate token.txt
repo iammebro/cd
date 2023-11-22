@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+
+[0-9]+      { printf("INTEGER: %s\n", yytext); }
+[ \t\n]     ; // Ignore whitespace
+"+"         { printf("PLUS\n"); }
+"*"         { printf("MULTIPLY\n"); }
+"("         { printf("LEFT_PAREN\n"); }
+")"         { printf("RIGHT_PAREN\n"); }
+.           { printf("Invalid character: %c\n", yytext[0]); }
+
+%%
+
+int main() {
+    yylex();
+    return 0;
+}
+
+
+run 
+
+
+lex token_generator.l
+cc lex.yy.c -o token_generator -ll
+./token_generator < input.txt

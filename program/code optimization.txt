@@ -1,0 +1,157 @@
+#include <stdio.h> #include <ctype.h>
+int main() {
+
+
+char a[25][25], op1 = '*', op2 = '+', op3 = '/', op4 = '-';
+ int p, q, r, l, o, ch, i = 1, c, k, j, count = 0; FILE *fi, *fo;
+printf("Enter three address code\n");
+ 
+printf("Enter the Ctrl-D to complete:\ n"); fi = fopen("infile.txt", "w");
+while ((c = getchar()) != EOF) { fputc(c, fi);
+
+}
+
+
+fclose(fi);
+
+
+printf("\nUnoptimized input block\n"); fi = fopen("infile.txt", "r");
+while ((c = fgetc(fi)) != EOF)
+
+
+{ k = 1;
+
+
+while (c != ';' && c != EOF)
+
+
+{
+
+
+a[i][k] = c; printf("%c", a[i][k]); k++;
+c = fgetc(fi);
+
+
+}
+
+
+}
+
+
+count = i;
+ 
+fclose(fi); i = 1;
+printf("\n\nOptimized three address code\n"); while (i < count) {
+
+if (a[i][4] == op1 && a[i][5] == op1)
+
+
+{
+
+
+printf("\nType 1 reduction in strength\n"); if (a[i][6] == '2') {
+for (j = 1; j <= 4; j++)
+
+
+{
+
+
+printf("%c", a[i][j]);
+
+
+}
+
+
+printf("%c", a[i][3]); printf("\n");
+}
+
+
+} else if (isdigit(a[i][3]) && isdigit(a[i][5]))
+
+
+{
+printf("\nType 2 constant folding\n"); p = a[i][3] - '0';
+ 
+
+q = a[i][5] - '0';
+
+
+if (a[i][4] == op1) r = p * q;
+else if (a[i][4] == op2) r = p + q;
+else if (a[i][4] == op3) r = p / q;
+
+
+else if (a[i][4] == op4) r = p - q;
+for (j = 1; j <= 2; j++)
+
+
+{
+
+
+printf("%c", a[i][j]);
+
+
+}
+
+
+printf("%d\n", r);
+
+
+} else if (a[i][5] == '0' || a[i][5] == '1') {
+
+
+printf("\nType 3 algebraic expression elimination\n");
+
+
+if ((a[i][4] == op1 && a[i][5] == '1') || (a[i][4] == op3 && a[i][5] == '1')) { for (j = 1; j <= 3; j++) {
+printf("%c", a[i][j]);
+ 
+
+}
+
+
+printf("\n");
+
+
+} else {
+
+
+printf("\nSorry, cannot optimize\n");
+
+
+}
+
+
+} else {
+
+printf("\nError in input\n");
+
+} i++;
+}
+
+
+return 0;
+
+
+}
+
+
+
+OUTPUT:
+
+[CSE@localhost ~]$gcc 6 .c [CSE@localhost ~]$$ ./a.out Enter three address code Enter the Ctrl+D to complete: a=5/1;
+b=2+4;
+
+c=x**2;
+
+Unoptimized input block a=5/1
+b=2+4
+
+c=x**2
+ 
+
+
+Optimized three address code
+
+Type 3 algebraic expression elimination:5 Type 2 constant folding:6
+Type 1 reduction in strength:c=x*x

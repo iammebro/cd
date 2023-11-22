@@ -1,0 +1,49 @@
+Arith
+
+
+%{
+#include<stdio.h> #include<ctype.h> int yylex();
+int yyerror(char *s);
+%}
+%token LETTER DIGIT
+%left '+' '-'
+%left '*' '/'
+%%
+st:st expr '\n' {printf("\n valid expression \n");}
+| st '\n'
+|
+;
+expr:expr '+' expr
+|expr '-' expr
+|expr '*' expr
+|expr '/' expr
+|'(' expr ')'
+| NUM
+ 
+| LETTER
+;
+NUM: DIGIT
+|NUM DIGIT
+;
+%%
+int yylex()
+{
+char c; while((c=getchar())==' ');
+if(isalpha(c)) return LETTER; if(isdigit(c)) return DIGIT; return(c);
+}
+int main()
+{
+printf("\n Enter a expression\n"); yyparse();
+}
+int yyerror(char *s)
+{
+printf("invalid expression \n"); return 0;
+}
+
+OUTPUT:
+[root@localhost]$ yacc –d 3a.y [root@localhost]$ gcc y.tab.c [root@localhost]$ ./a.out
+Enter a expression a+b
+valid expression
+
+a=b
+invalid expression

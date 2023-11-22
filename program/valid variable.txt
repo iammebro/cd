@@ -1,0 +1,59 @@
+%{
+#include <stdio.h> #include <ctype.h>
+
+int yylex();
+int yyerror(char *s);
+%}
+
+%token let dig error
+
+%%
+
+sad: let recld '\n' { printf("Valid variable\n"); return 0; }
+| let '\n' { printf("Valid variable\n"); return 0; }
+|
+;
+
+recld: let recld
+| dig recld
+| let
+| dig
+;
+ 
+%%
+int yylex()
+{
+char ch;
+while ((ch = getchar()) == ' ')
+;
+if (isalpha(ch)) return let;
+if (isdigit(ch)) return dig;
+return ch;
+}
+
+int yyerror(char *s)
+{
+printf(" Invalid variable \n");
+}
+
+int main()
+{
+printf("Enter the variable:"); yyparse();
+return 0;
+}
+
+
+
+
+
+
+output 
+
+
+
+
+[root@localhost]$ yacc –d 3b.y [root@localhost]$ gcc y.tab.c [root@localhost]$ ./a.out
+Enter the variable:AB10 Valid variable
+
+[root@localhost]$ ./a.out Enter the variable:1AB Invalid variable
+

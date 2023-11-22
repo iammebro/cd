@@ -1,0 +1,94 @@
+%{
+#include "y.tab.h"
+%}
+
+%%
+[0-9]+ {
+yylval.intValue = atoi(yytext); return Integer;
+}
+
+[0-9]*[.][0-9]+ {
+yylval.floatValue = atof(yytext); return Float;
+}
+ 
+"true" {
+yylval.intValue = 1; return Boolean;
+}
+
+"false" { yylval.intValue = 0; return Boolean;
+}
+
+\"[^\"\n]*\" {
+yylval.stringValue = strdup(yytext); return String;
+}
+
+. {
+fprintf(stderr, "Unrecognized character: %s\n", yytext);
+}
+
+%%
+
+int yywrap() { return 1;
+}
+
+5.y
+%{
+#include <stdio.h> #include <stdlib.h> #include <string.h>
+
+extern int yylex(); extern char* yytext; int yyparse();
+void yyerror(const char* s);
+
+%}
+
+%union {
+int intValue; float floatValue;
+ 
+char* stringValue;
+}
+
+%token <intValue> Integer
+%token <floatValue> Float
+%token <stringValue> String Character
+%token <intValue> Boolean
+
+%type <intValue> num
+
+%%
+
+program: num
+| Boolean {
+printf("Type: Boolean, Value: %s\n", $1 ? "true" : "false");
+}
+| Character {
+printf("Type: Character, Value: %s\n", yytext);
+};
+
+num: Integer {
+printf("Type: Integer, Value: %d\n", $1);
+}
+| Float {
+printf("Type: Float, Value: %f\n", $1);
+}
+| String {
+printf("Type: String, Value: \"%s\"\n", $1);
+};
+
+%%
+
+int main() { yyparse(); return 0;
+}
+
+void yyerror(const char* s) { fprintf(stderr, "Parser error: %s\n", s); exit(1);
+}
+ 
+
+OUTPUT:
+[CSE@localhost ~]$ lex 5.l [CSE@localhost ~]$ yacc -d 5.y [CSE@localhost ~]$ gcc lex.yy.c y.tab.c [CSE@localhost ~]$ ./a.out
+12.2
+Type: Float, Value: 12.200000
+
+34
+Type: Integer, Value: 34
+
+"hellow"
+Type: String, Value: ""hellow""

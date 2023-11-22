@@ -1,0 +1,164 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <ctype.h>
+
+
+
+Int main() {
+
+    Int I = 0, j = 0, x = 0, n, flag = 0;
+
+    Void *p, *add[5];
+
+    Char c, srch, b[15], d[5];
+
+
+
+    Printf(“Expression terminated by $ : “);
+
+    While ((c = getchar()) != ‘\n’) {
+
+        B[i] = c;
+
+        I++;
+
+    }
+
+    N = I – 1;
+
+
+
+    Printf(“Given Expression : “);
+
+    For (I = 0; I <= n; i++) {
+
+        Printf(“%c”, b[i]);
+
+    }
+
+
+
+    Printf(“\nSymbol Table\n”);
+
+    Printf(“Symbol\taddr\ttype”);
+
+
+
+    For (j = 0; j <= n; j++) {
+
+        C = b[j];
+
+        If (isalpha((unsigned char)c)) {
+
+            If (j == n) {
+
+                P = malloc(1);
+
+                Add[x] = p;
+
+                D[x] = c;
+
+                Printf(“\n%c\t%p\tidentifier”, c, p);
+
+            } else {
+
+                Char nextChar = b[j + 1];
+
+                If (nextChar == ‘+’ || nextChar == ‘-‘ || nextChar == ‘*’ || nextChar == ‘=’) {
+
+                    P = malloc(1);
+
+                    Add[x] = p;
+
+                    D[x] = c;
+
+                    Printf(“\n%c\t%p\tidentifier”, c, p);
+
+                    X++;
+
+                } else {
+
+                    Printf(“\n%c\t%p\tidentifier”, c, p);
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+
+    Printf(“\nThe symbol is to be searched: “);
+
+    Srch = getchar();
+
+
+
+    For (I = 0; I <= x; i++) {
+
+        If (srch == d[i]) {
+
+            Printf(“\nSymbol Found”);
+
+            Printf(“\n%c @address %p\n”, srch, add[i]);
+
+            Flag = 1;
+
+            Break;
+
+        }
+
+    }
+
+
+
+    If (flag == 0) {
+
+        Printf(“\nSymbol Not Found\n”);
+
+    }
+
+
+
+    Return 0;
+
+}
+
+
+
+
+OUTPUT:
+
+
+
+Expression terminated by $ : abc+xyz=123$
+
+Given Expression : abc+xyz=123$
+
+Symbol Table
+
+Symbol	addr	type
+
+A	0x7f892e7a185c	identifier
+
+B	0x7f892e7a185c	identifier
+
+C	0x561a03063ac0	identifier
+
+X	0x561a03063ac0	identifier
+
+Y	0x561a03063ac0	identifier
+
+Z	0x561a03063ae0	identifier
+
+The symbol is to be searched: z
+
+
+
+Symbol Found
+
+Z @address 0x561a03063ae0
